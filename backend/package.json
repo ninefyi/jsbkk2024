@@ -1,0 +1,27 @@
+{
+  "name": "ai-api",
+  "version": "1.0.0",
+  "description": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/community": "^0.2.13",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "langchain": "^0.2.6",
+    "mongodb": "^6.7.0",
+    "node-fetch": "^3.3.2",
+    "ollama": "^0.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

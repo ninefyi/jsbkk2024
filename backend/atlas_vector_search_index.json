@@ -1,0 +1,12 @@
+{
+    "name": "vector_index",
+    "type": "vectorSearch",
+    "fields": [
+      {
+        "numDimensions": 3072,
+        "path": "plot_embedding_phi3_mini",
+        "similarity": "dotProduct",
+        "type": "vector"
+      }
+    ]
+  }

@@ -1,0 +1,12 @@
+{
+    "name": "search_index",
+    "type": "search",
+    "mappings": {
+        "dynamic": true,
+        "fields": {
+            "title": {
+                "type": "string"
+            }
+        }
+    }
+}

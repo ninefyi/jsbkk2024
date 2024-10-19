@@ -1,0 +1,154 @@
+[
+    {
+      $vectorSearch: {
+        index: "vector_index",
+        path: "plot_embedding_phi3_mini",
+        queryVector: [],
+        numCandidates: 100,
+        limit: 20
+        }
+    },
+    {
+      $group: {
+        _id: null,
+        docs: { $push: "$$ROOT"
+            }
+        }
+    },
+    {
+      $unwind: {
+        path: "$docs",
+        includeArrayIndex: "rank"
+        }
+    },
+    {
+      $addFields: {
+        vs_score: {
+          $multiply: [
+                    0.1,
+                    {
+              $divide: [
+                            1.0,
+                            {
+                  $add: [
+                                    "$rank",
+                                    60
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+      $project: {
+        vs_score: 1,
+        _id: "$docs._id",
+        title: "$docs.title"
+        }
+    },
+    {
+      $unionWith: {
+        coll: "movies",
+        pipeline: [
+                {
+            $search: {
+              index: "search_index",
+              phrase: {
+                query: "star wars",
+                path: "title"
+                        }
+                    }
+                },
+                {
+            $limit: 20
+                },
+                {
+            $group: {
+              _id: null,
+              docs: { $push: "$$ROOT"
+                        }
+                    }
+                },
+                {
+            $unwind: {
+              path: "$docs",
+              includeArrayIndex: "rank"
+                    }
+                },
+                {
+            $addFields: {
+              fts_score: {
+                $multiply: [
+                                0.9,
+                                {
+                    $divide: [
+                                        1.0,
+                                        {
+                        $add: [
+                                                "$rank",
+                                                60
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+            $project: {
+              fts_score: 1,
+              _id: "$docs._id",
+              title: "$docs.title"
+                    }
+                }
+            ]
+        }
+    },
+    {
+      $group: {
+        _id: "$title",
+        vs_score: { $max: "$vs_score"
+            },
+        fts_score: { $max: "$fts_score"
+            }
+        }
+    },
+    {
+      $project: {
+        _id: 1,
+        title: 1,
+        vs_score: { $ifNull: [
+                    "$vs_score",
+                    0
+                ]
+            },
+        fts_score: { $ifNull: [
+                    "$fts_score",
+                    0
+                ]
+            }
+        }
+    },
+    {
+      $project: {
+        score: {
+          $add: [
+                    "$fts_score",
+                    "$vs_score"
+                ]
+            },
+        _id: 1,
+        title: 1,
+        vs_score: 1,
+        fts_score: 1
+        }
+    },
+    { $sort: { score: -1
+        }
+    },
+    { $limit: 10
+    }
+]
