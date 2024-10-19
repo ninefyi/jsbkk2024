@@ -7,6 +7,10 @@
     <hr />
     <p><b>Year</b>: {{ year }}</p>
     <hr/>
+    <p><b>VS Score</b>: {{ vs_score }}</p>
+    <hr/>
+    <p><b>FTS Score</b>: {{ fts_score }}</p>
+    <hr/>
     <p><b>Score</b>: {{ score }}</p>
   </div>
 </template>
@@ -31,6 +35,14 @@ export default {
       required: false
     },
     score: {
+      type: Number,
+      required: false
+    },
+    fts_score: {
+      type: Number,
+      required: false
+    },
+    vs_score: {
       type: Number,
       required: false
     }

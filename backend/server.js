@@ -88,9 +88,12 @@ app.get('/search', async (req, res) => {
 
     const project1 = {
         $project: {
-            vs_score: 1,
-            _id: "$docs._id",
-            title: "$docs.title"
+            "vs_score": 1,
+            "_id": "$docs._id",
+            "title": "$docs.title",
+            "plot": "$docs.plot",
+            "poster": "$docs.poster",
+            "year": "$docs.year"
         }
     }
 
@@ -137,7 +140,10 @@ app.get('/search', async (req, res) => {
                     "$project": {
                         "fts_score": 1,
                         "_id": "$docs._id",
-                        "title": "$docs.title"
+                        "title": "$docs.title",
+                        "plot": "$docs.plot",
+                        "poster": "$docs.poster",
+                        "year": "$docs.year"
                     }
                 }
             ]
@@ -147,22 +153,22 @@ app.get('/search', async (req, res) => {
     const group2 = {
         $group: {
             _id: "$title",
-            title: {
+            "title": {
                 $first: "$title"
             },
-            plot: {
+            "plot": {
                 $first: "$plot"
             },
-            poster: {
+            "poster": {
                 $first: "$poster"
             },
-            year: {
+            "year": {
                 $first: "$year"
             },
-            vs_score: {
+            "vs_score": {
                 $max: "$vs_score"
             },
-            fts_score: {
+            "fts_score": {
                 $max: "$fts_score"
             }
         }

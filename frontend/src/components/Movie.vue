@@ -12,7 +12,9 @@
                     :plot="movie.plot" 
                     :poster="movie.poster" 
                     :year="movie.year" 
-                    :score="movie.score"  />
+                    :score="movie.score"
+                    :vs_score="movie.vs_score" 
+                    :fts_score="movie.fts_score" />
             </div>
         </div>
     </div>
