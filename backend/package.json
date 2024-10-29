@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@langchain/community": "^0.2.13",
+    "@langchain/community": "^0.3.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "langchain": "^0.2.6",
